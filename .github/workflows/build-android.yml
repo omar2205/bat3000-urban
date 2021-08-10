@@ -32,8 +32,8 @@ jobs:
         run: npm i # && npx cap add android #&& npm run resources
       - name: Build App
         run: npm run dev:build && npm run cap-sync:android
-      - name: Copy icons 
-        run: yes | cp -rf public/icons/android android/app/src/main/res/
+#       - name: Copy icons 
+#         run: yes | cp -rf public/icons/android android/app/src/main/res/
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
