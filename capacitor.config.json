@@ -1,0 +1,16 @@
+{
+  "appId": "nl.oskr.bat3000",
+  "appName": "bat3000",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {},
+  "server": {
+    "cleartext": true
+  }
+}
