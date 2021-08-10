@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Node Packages & add cap/android
-        run: npm i && npx cap add android
+        run: npm i && npx cap add android && npm run resources
       - name: Build App
         run: npm run dev:build && npm run cap-sync:android
       - name: Setup JDK
