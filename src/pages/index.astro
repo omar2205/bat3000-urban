@@ -1,18 +1,21 @@
 ---
-console.log('hey')
+import Battery from '../components/Battery.svelte'
 ---
 <html>
 <body>
-  <h1>Hello, Astro</h1>
+  <h1>BAT 3000</h1>
+  <Battery client:load />
 </body>
 </html>
-<style>
+<style lang="scss">
 body {
   font-family: sans-serif;
-}
-h1 {
-  text-align: center;
-  font-weight: 100;
-  font-size: 8rem;
+  background: #111;
+  color: #f4f4f4;
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
 }
 </style>

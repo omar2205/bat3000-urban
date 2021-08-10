@@ -8,7 +8,8 @@
     "dev:build": "astro build",
     "-- platform sync": "",
     "cap-sync:android": "cap sync android",
-    "cap-sync:ios": "cap sync ios"
+    "cap-sync:ios": "cap sync ios",
+    "resources": "capacitor-resources -p android,ios"
   },
   "author": "omar2205",
   "license": "ISC1",
@@ -17,7 +18,9 @@
     "@astrojs/renderer-vue": "^0.1.6",
     "@capacitor/android": "^3.1.2",
     "@capacitor/core": "^3.1.2",
-    "astro": "^0.18.9"
+    "@capacitor/device": "^1.0.2",
+    "astro": "^0.18.9",
+    "capacitor-resources": "^2.0.5"
   },
   "devDependencies": {
     "@capacitor/cli": "^3.1.2"
