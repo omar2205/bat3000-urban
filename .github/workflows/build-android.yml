@@ -30,8 +30,8 @@ jobs:
             ${{ runner.os }}-
       - name: Install Node Packages & add cap/android
         run: npm i && npx cap add android #&& npm run resources
-      - name: Check locations
-        run: ls android/app/src && echo 'm=====' && ls android/app/src/main/res
+      - name: Copy icons 
+        run: yes | cp -rf public/icons/ android/app/src/main/res/
       - name: Build App
         run: npm run dev:build && npm run cap-sync:android
       - name: Setup JDK
