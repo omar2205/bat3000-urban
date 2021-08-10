@@ -5,7 +5,10 @@
   "main": "-",
   "scripts": {
     "dev:start": "astro dev",
-    "dev:build": "astro build"
+    "dev:build": "astro build",
+    "-- platform sync": "",
+    "cap-sync:android": "cap sync android",
+    "cap-sync:ios": "cap sync ios"
   },
   "author": "omar2205",
   "license": "ISC1",
