@@ -13,7 +13,7 @@
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 41
+  const CRITICAL_LVL = 43
   let sent_alert = false
 
   let bat
@@ -84,7 +84,7 @@
   const checkBat = async () => {
     // if we already sent the request
     if (sent_alert === true) return
-    BackgroundMode.enable(true)
+    if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(true)
     if (parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BCAKEND_URL,
@@ -100,7 +100,7 @@
       // we reached our desired battery level
       // now we turn off background mode
       sent_alert = true
-      BackgroundMode.enable(false)
+      if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(false)
     }
   }
 </script>
