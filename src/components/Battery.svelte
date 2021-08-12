@@ -1,6 +1,7 @@
 <script>
-  import { Device } from '@capacitor/device'
   import { App } from '@capacitor/app'
+  import { Device } from '@capacitor/device'
+  import { Toast } from '@capacitor/toast'
   import { Http as http } from '@capacitor-community/http'
   // import { BackgroundMode } from '@ionic-native/background-mode'
   import { onMount } from 'svelte'
@@ -13,7 +14,7 @@
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 43
+  const CRITICAL_LVL = 48
   let sent_alert = false
 
   let bat
@@ -31,24 +32,29 @@
 
   onMount(() => {
     if (debug_mode === true) {
-      http.post({ 
-        url: 'http://192.168.1.99:9000/h', 
-        headers: { 'Content-Type': 'text/html; charset=utf-8'},
-        data: '--->  Mounted' 
-      })
-      http.post({ 
+      http.post({
         url: 'http://192.168.1.99:9000/h',
-        headers: { 'Content-Type': 'text/html; charset=utf-8'},
-        data: '--->  Check bg' 
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        data: '--->  Mounted'
+      })
+      http.post({
+        url: 'http://192.168.1.99:9000/h',
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        data: '--->  Check bg'
       })
       if (typeof cordova !== 'undefined') {
-        http.post({ 
+        http.post({
           url: 'http://192.168.1.99:9000/h',
-          headers: { 'Content-Type': 'text/html; charset=utf-8'},
-          data: '--->  ' + JSON.stringify(cordova.plugins.backgroundMode, null, 2) 
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          data: '--->  ' + JSON.stringify(cordova.plugins.backgroundMode, null, 2)
         })
       }
 
+    }
+    if (typeof BackgroundMode !== 'undefined') {
+      // if BackgroundMode plugin is active and we
+      // didn't send an alert activate mode
+      if(sent_alert === false) BackgroundMode.enable(true)
     }
     setInterval(() => {
       getBatteryInfo()
@@ -74,7 +80,7 @@
       if (debug_mode === true) {
         http.post({
           url: 'http://192.168.1.99:9000/h',
-          headers: { 'Content-Type': 'text/html; charset=utf-8'},
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
           data: '--->  state change' + isActive + '///' + state_isActive
         })
       }
@@ -84,17 +90,19 @@
   const checkBat = async () => {
     // if we already sent the request
     if (sent_alert === true) return
-    if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(true)
     if (parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BCAKEND_URL,
         headers: { 'Content-Type': 'application/json' },
         data: { percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED') }
       })
+      await Toast.show({
+        text: 'Battery charged. Sent req'
+      })
       // debug, send response
       await http.post({
         url: 'http://192.168.1.99:9000/h',
-        headers: { 'Content-Type': 'text/html; charset=utf-8'},
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
         data: 'debug_data_post_res ' + JSON.stringify(await res, null, 2)
       })
       // we reached our desired battery level
