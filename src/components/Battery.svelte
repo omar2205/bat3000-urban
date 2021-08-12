@@ -3,7 +3,6 @@
   import { Device } from '@capacitor/device'
   import { Toast } from '@capacitor/toast'
   import { Http as http } from '@capacitor-community/http'
-  // import { BackgroundMode } from '@ionic-native/background-mode'
   import { onMount } from 'svelte'
 
   let debug_mode = false
@@ -13,7 +12,8 @@
     BackgroundMode = cordova.plugins.backgroundMode
   }
 
-  const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
+  const BACKEND_URL = 'http://192.168.1.99:9000'
+  const BACKEND_URL_BAT = 'http://192.168.1.99:9000/c3xu87/phone/battery'
   const CRITICAL_LVL = 90
   let sent_alert = false
 
@@ -21,6 +21,7 @@
   let isCharging
   let state_isActive = true
 
+  // if var bat changes, invoke checkBat()
   $: bat, checkBat()
 
   const getBatteryInfo = async () => {
@@ -34,18 +35,18 @@
     getBatteryInfo()
     if (debug_mode === true) {
       http.post({
-        url: 'http://192.168.1.99:9000/h',
+        url: BACKEND_URL+'/h',
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
         data: '--->  Mounted'
       })
       http.post({
-        url: 'http://192.168.1.99:9000/h',
+        url: BACKEND_URL+'/h',
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
         data: '--->  Check bg'
       })
       if (typeof cordova !== 'undefined') {
         http.post({
-          url: 'http://192.168.1.99:9000/h',
+          url: BACKEND_URL+'/h',
           headers: { 'Content-Type': 'text/html; charset=utf-8' },
           data: '--->  ' + JSON.stringify(cordova.plugins.backgroundMode, null, 2)
         })
@@ -56,6 +57,7 @@
       // if BackgroundMode plugin is active and we
       // didn't send an alert activate mode
       if(sent_alert === false) BackgroundMode.enable(true)
+      else BackgroundMode.enable(false)
     }
     setInterval(() => {
       getBatteryInfo()
@@ -65,7 +67,7 @@
       state_isActive = isActive
       if (debug_mode === true) {
         http.post({
-          url: 'http://192.168.1.99:9000/h',
+          url: BACKEND_URL+'/h',
           headers: { 'Content-Type': 'text/html; charset=utf-8' },
           data: '--->  state change' + isActive + '///' + state_isActive
         })
@@ -76,9 +78,10 @@
   const checkBat = async () => {
     // if we already sent the request
     if (sent_alert === true) return
+    if (isCharging === false) return
     if (parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
-        url: BCAKEND_URL,
+        url: BACKEND_URL_BAT,
         headers: { 'Content-Type': 'application/json' },
         data: { percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED') }
       })
@@ -88,7 +91,7 @@
       })
       // debug, send response
       await http.post({
-        url: 'http://192.168.1.99:9000/h',
+        url: BACKEND_URL+'/h',
         headers: { 'Content-Type': 'text/html; charset=utf-8' },
         data: 'debug_data_post_res ' + JSON.stringify(await res, null, 2)
       })
@@ -105,7 +108,7 @@
 
 <style lang="scss">
   h1 {
-    font-size: 20vw;
+    font-size: 25vw;
     font-weight: 100;
     text-align: center;
     display: flex;
