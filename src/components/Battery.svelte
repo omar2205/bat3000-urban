@@ -97,7 +97,7 @@
         data: { percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED') }
       })
       await Toast.show({
-        text: 'Battery charged. Sent req'
+        text: 'Battery charged. Sent req. Got: ' + await res.data.slice(0, 2)
       })
       // debug, send response
       await http.post({
