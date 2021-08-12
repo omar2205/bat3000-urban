@@ -20,6 +20,8 @@
   let isCharging
   let state_isActive = true
 
+  $: bat, checkBat()
+
   const getBatteryInfo = async () => {
     let b = await Device.getBatteryInfo()
     bat = parseInt((b.batteryLevel * 100)) + '%'
@@ -82,6 +84,7 @@
   const checkBat = async () => {
     // if we already sent the request
     if (sent_alert === true) return
+    BackgroundMode.enable(true)
     if (parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BCAKEND_URL,
