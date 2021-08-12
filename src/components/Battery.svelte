@@ -11,7 +11,7 @@
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 29
+  const CRITICAL_LVL = 32
   let sent_alert = false
   
   let bat
@@ -36,12 +36,14 @@
         return
       }
       // background work
-      BackgroundMode.enable(true)
+      if(sent_alert === false) {
+        BackgroundMode.enable(true)
+        $: bat, checkBat()
+      }
       // check battery every 2s
       // setInterval(() => {
       //   if(bat >= )
       // }, 2000)
-      $: bat, checkBat()
     })
   })
 
@@ -55,9 +57,9 @@
         data: {percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED')}
       })
       // debug, send response
-      http.post({
+      await http.post({
         url: 'http://192.168.1.99:9000/h',
-        data: JSON.stringify(res, null, 2)
+        data: JSON.stringify(await res, null, 2)
       })
       // we reached our desired battery level
       // now we turn off background mode
