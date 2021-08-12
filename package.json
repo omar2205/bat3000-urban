@@ -16,9 +16,15 @@
   "dependencies": {
     "@astrojs/renderer-svelte": "^0.1.1",
     "@astrojs/renderer-vue": "^0.1.6",
+    "@capacitor-community/http": "^1.1.2",
+    "@ionic-native/background-mode": "^5.35.0",
+    "@ionic-native/core": "^5.35.0",
     "@capacitor/android": "^3.1.2",
+    "@capacitor/app": "^1.0.2",
     "@capacitor/core": "^3.1.2",
     "@capacitor/device": "^1.0.2",
+    "@robingenz/capacitor-background-task": "^1.0.0",
+    "cordova-plugin-background-mode": "^0.7.3",
     "astro": "^0.18.9",
     "capacitor-resources": "^2.0.5"
   },
