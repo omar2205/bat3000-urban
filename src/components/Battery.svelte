@@ -6,7 +6,7 @@
   // import { BackgroundMode } from '@ionic-native/background-mode'
   import { onMount } from 'svelte'
 
-  let debug_mode = true
+  let debug_mode = false
 
   let BackgroundMode
   if (typeof cordova !== 'undefined') {
@@ -14,7 +14,7 @@
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 48
+  const CRITICAL_LVL = 90
   let sent_alert = false
 
   let bat
@@ -31,6 +31,7 @@
   }
 
   onMount(() => {
+    getBatteryInfo()
     if (debug_mode === true) {
       http.post({
         url: 'http://192.168.1.99:9000/h',
@@ -60,21 +61,6 @@
       getBatteryInfo()
     }, 2000)
 
-    // App.addListener('appStateChange', async ({isActive}) => {
-    //   if (isActive) {
-    //     state_isActive = isActive
-    //     return
-    //   }
-    //   // background work
-    //   if(sent_alert === false) {
-    //     BackgroundMode.enable(true)
-    //     $: bat, checkBat()
-    //   }
-    //   // check battery every 2s
-    //   // setInterval(() => {
-    //   //   if(bat >= )
-    //   // }, 2000)
-    // })
     App.addListener('appStateChange', ({ isActive }) => {
       state_isActive = isActive
       if (debug_mode === true) {
@@ -97,7 +83,8 @@
         data: { percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED') }
       })
       await Toast.show({
-        text: 'Battery charged. Sent req. Got: ' + await res.data.slice(0, 2)
+        text: 'Battery charged. Sent req. Got: ' + await res.data.slice(0, 2),
+        duration: 'long'
       })
       // debug, send response
       await http.post({
