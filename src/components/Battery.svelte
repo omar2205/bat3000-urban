@@ -6,12 +6,12 @@
   import { onMount } from 'svelte'
   
   let BackgroundMode
-  if (typeof variable !== 'undefined') {
+  if (typeof cordova !== 'undefined') {
     BackgroundMode = cordova.plugins.backgroundMode
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 27
+  const CRITICAL_LVL = 29
   let sent_alert = false
   
   let bat
