@@ -29,11 +29,20 @@
 
   onMount(() => {
     if (debug_mode === true) {
-      http.post({ url: 'http://192.168.1.99:9000/h', data: '--->  Mounted' })
-      http.post({ url: 'http://192.168.1.99:9000/h', data: '--->  Check bg' })
+      http.post({ 
+        url: 'http://192.168.1.99:9000/h', 
+        headers: { 'Content-Type': 'text/html; charset=utf-8'},
+        data: '--->  Mounted' 
+      })
+      http.post({ 
+        url: 'http://192.168.1.99:9000/h',
+        headers: { 'Content-Type': 'text/html; charset=utf-8'},
+        data: '--->  Check bg' 
+      })
       if (typeof cordova !== 'undefined') {
         http.post({ 
-          url: 'http://192.168.1.99:9000/h', 
+          url: 'http://192.168.1.99:9000/h',
+          headers: { 'Content-Type': 'text/html; charset=utf-8'},
           data: '--->  ' + JSON.stringify(cordova.plugins.backgroundMode, null, 2) 
         })
       }
@@ -63,6 +72,7 @@
       if (debug_mode === true) {
         http.post({
           url: 'http://192.168.1.99:9000/h',
+          headers: { 'Content-Type': 'text/html; charset=utf-8'},
           data: '--->  state change' + isActive + '///' + state_isActive
         })
       }
@@ -81,6 +91,7 @@
       // debug, send response
       await http.post({
         url: 'http://192.168.1.99:9000/h',
+        headers: { 'Content-Type': 'text/html; charset=utf-8'},
         data: 'debug_data_post_res ' + JSON.stringify(await res, null, 2)
       })
       // we reached our desired battery level
