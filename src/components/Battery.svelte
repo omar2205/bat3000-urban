@@ -13,7 +13,7 @@
   }
 
   const BCAKEND_URL = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 39
+  const CRITICAL_LVL = 41
   let sent_alert = false
 
   let bat
