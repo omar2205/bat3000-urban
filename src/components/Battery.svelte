@@ -5,7 +5,7 @@
   import { Http as http } from '@capacitor-community/http'
   import { onMount } from 'svelte'
 
-  let debug_mode = false
+  let debug_mode = true
 
   let BackgroundMode
   if (typeof cordova !== 'undefined') {
@@ -58,7 +58,7 @@
     if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(true)
     if(parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
-        url: BACKEND_URL,
+        url: BACKEND_URL_BAT,
         headers: { 'Content-Type': 'application/json' },
         data: { percentage: parseInt(bat), plugged: (isCharging ? 'PLUGGED' : 'UNPLUGGED') }
       })
