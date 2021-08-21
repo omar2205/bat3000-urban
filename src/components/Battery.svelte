@@ -5,7 +5,7 @@
   import { Http as http } from '@capacitor-community/http'
   import { onMount } from 'svelte'
 
-  let debug_mode = true
+  let debug_mode = false
 
   let BackgroundMode
   if (typeof cordova !== 'undefined') {
@@ -14,7 +14,7 @@
 
   const BACKEND_URL = 'http://192.168.1.99:9000'
   const BACKEND_URL_BAT = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 95
+  const CRITICAL_LVL = 92
   let sent_alert = false
 
   let bat
