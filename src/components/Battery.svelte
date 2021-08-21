@@ -55,7 +55,7 @@
   const checkBat = async () => {
     if (sent_alert) return
     if (isCharging === false) return
-    BackgroundMode.enable(false)
+    if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(true)
     if(parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BACKEND_URL,
