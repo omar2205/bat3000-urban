@@ -14,7 +14,7 @@
 
   const BACKEND_URL = 'http://192.168.1.99:9000'
   const BACKEND_URL_BAT = 'http://192.168.1.99:9000/c3xu87/phone/battery'
-  const CRITICAL_LVL = 90
+  const CRITICAL_LVL = 95
   let sent_alert = false
 
   let bat
@@ -55,6 +55,7 @@
   const checkBat = async () => {
     if (sent_alert) return
     if (isCharging === false) return
+    BackgroundMode.enable(false)
     if(parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BACKEND_URL,
