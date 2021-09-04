@@ -7,9 +7,10 @@
 
   let debug_mode = false
 
-  let BackgroundMode
+  let BackgroundMode, ForegroundService
   if (typeof cordova !== 'undefined') {
     BackgroundMode = cordova.plugins.backgroundMode
+    ForegroundService = cordova.plugins.foregroundService
   }
 
   const BACKEND_URL = 'http://192.168.1.99:9000'
@@ -55,7 +56,10 @@
   const checkBat = async () => {
     if (sent_alert) return
     if (isCharging === false) return
-    if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(true)
+    if (typeof BackgroundMode !== 'undefined') {
+      BackgroundMode.enable(true)
+      ForegroundService.start('BAT 3000', 'Bat3000 is running')
+    }
     if(parseInt(bat) >= CRITICAL_LVL) {
       const res = await http.post({
         url: BACKEND_URL_BAT,
@@ -67,7 +71,10 @@
         duration: 'long'
       })
       sent_alert = true
-      if (typeof BackgroundMode !== 'undefined') BackgroundMode.enable(false)
+      if (typeof BackgroundMode !== 'undefined') {
+        BackgroundMode.enable(false)
+        ForegroundService.stop()
+      }
     }
   }
 
